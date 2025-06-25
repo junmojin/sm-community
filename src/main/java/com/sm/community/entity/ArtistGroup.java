@@ -1,4 +1,4 @@
-package com.sm.commuity.entity;
+package com.sm.community.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Entity
 public class ArtistGroup {
     @Id @GeneratedValue //기본키 매핑 자동생성
-    private Long group_id;
+    private Long groupId;
 
     private String group_name;
     private LocalDate debut_date;
