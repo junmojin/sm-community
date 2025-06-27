@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SMFL: SM FanLine</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            padding: 40px;
+            background-color: #f7f7f7;
+        }
+        h1 {
+            color: #333;
+        }
+        .group-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .group-card {
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            padding: 16px;
+            width: 200px;
+            text-align: center;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        }
+        .group-card a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h1>🎤 SM 엔터테인먼트 응원 게시판</h1>
+<p>응원하고 싶은 그룹을 클릭하세요!</p>
+
+<div class="group-list">
+    <div class="group-card" th:each="group : ${groups}">
+        <a th:href="@{|/group/${group.groupId}|}" th:text="${group.groupName}">그룹명</a>
+        <p th:text="'데뷔일: ' + ${group.debutDate}"></p>
+    </div>
+</div>
+
+</body>
+</html>
