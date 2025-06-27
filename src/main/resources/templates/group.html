@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${group.groupName} + ' 방명록'">그룹명 방명록</title>
+</head>
+<body>
+
+<h1 th:text="${group.groupName} + ' 응원 게시판'">그룹명 응원 게시판</h1>
+<p th:text="'데뷔일: ' + ${group.debutDate}"></p>
+<p th:text="${group.description}"></p>
+
+<h2>👤 멤버 목록</h2>
+<ul>
+    <li th:each="member : ${members}">
+        <strong th:text="${member.name}"></strong> (<span th:text="${member.position}"></span>)
+    </li>
+</ul>
+
+<h2>💌 응원글 남기기</h2>
+<form method="post" th:action="@{/api/posts}">
+    <input type="hidden" name="groupId" th:value="${group.groupId}" />
+    <input type="text" name="nickname" placeholder="닉네임" required />
+    <textarea name="content" placeholder="응원글을 작성하세요!" required></textarea>
+    <button type="submit">등록</button>
+</form>
+
+<h2>📃 응원글 목록</h2>
+<ul>
+    <li th:each="post : ${posts}">
+        <p><strong th:text="${post.nickname}"></strong>: <span th:text="${post.content}"></span></p>
+        <p th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"></p>
+        <hr/>
+    </li>
+</ul>
+
+</body>
+</html>
