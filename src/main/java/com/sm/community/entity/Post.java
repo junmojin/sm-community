@@ -14,7 +14,7 @@ public class Post {
     private Long postId;
 
     @ManyToOne
-    @JoinColumn(name = "groupId")
+    @JoinColumn(name = "group_id")
     private ArtistGroup group;
 
     private String nickname;
@@ -23,7 +23,7 @@ public class Post {
     @Lob
     private String content;
 
-    private LocalDateTime created_at;
-    private LocalDateTime updated_at;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     private boolean deleted;
 }
