@@ -29,8 +29,8 @@ public class PostController {
         post.setGroup(group);
         post.setNickname(dto.getNickname());
         post.setContent(dto.getContent());
-        post.setCreated_at(LocalDateTime.now());
-        post.setUpdated_at(LocalDateTime.now());
+        post.setCreatedAt(LocalDateTime.now());
+        post.setUpdatedAt(LocalDateTime.now());
 
         postRepository.save(post);
 
