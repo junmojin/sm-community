@@ -11,12 +11,12 @@ public class Member {
     private Long memberId;
 
     @ManyToOne
-    @JoinColumn(name = "groupId")
+    @JoinColumn(name = "group_id")
     private ArtistGroup group;
 
     private String name;
     private LocalDate birthday;
     private String position;
-    private String profileimg;
+    private String profileImg;
 
 }
