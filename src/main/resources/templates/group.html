@@ -2,37 +2,95 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${group.groupName} + ' 방명록'">그룹명 방명록</title>
+    <title th:text="${group.group_name} + ' 응원 게시판'">그룹 응원 게시판</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        .group-banner {
+            background-size: cover;
+            background-position: center;
+            height: 250px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .member-buttons button {
+            margin: 5px;
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+        .post-form textarea {
+            width: 100%;
+            height: 80px;
+            margin-bottom: 10px;
+        }
+        .post-item {
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+        }
+    </style>
 </head>
 <body>
 
-<h1 th:text="${group.groupName} + ' 응원 게시판'">그룹명 응원 게시판</h1>
-<p th:text="'데뷔일: ' + ${group.debutDate}"></p>
+<!-- ✅ 그룹 배너 -->
+<div class="group-banner"
+     th:style="'background-image: url(/images/' + ${group.groupName} + '_group.jpg)'">
+</div>
+
+<!-- ✅ 그룹 정보 -->
+<h1 th:text="${group.groupName} + ' 응원 게시판 🎤'">응원 게시판</h1>
+<p><strong>데뷔일:</strong> <span th:text="${group.debutDate}"></span></p>
 <p th:text="${group.description}"></p>
 
+<!-- ✅ 멤버 버튼 리스트 -->
 <h2>👤 멤버 목록</h2>
-<ul>
-    <li th:each="member : ${members}">
-        <strong th:text="${member.name}"></strong> (<span th:text="${member.position}"></span>)
-    </li>
-</ul>
+<div class="member-buttons">
+    <button th:each="member : ${members}"
+            th:text="${member.name}"
+            th:onclick="'showMemberInfo(' + ${member.memberId} + ')'">
+    </button>
+</div>
 
+<!-- ✅ 멤버 정보 표시 -->
+<div id="member-info" style="margin-top: 20px; border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
+    <p>멤버 버튼을 클릭하면 정보가 나타납니다.</p>
+</div>
+
+<!-- ✅ 응원글 등록 폼 -->
 <h2>💌 응원글 남기기</h2>
-<form method="post" th:action="@{/api/posts}">
-    <input type="hidden" name="groupId" th:value="${group.groupId}" />
+<form class="post-form" method="post" th:action="@{/posts}">
+    <input type="hidden" name="groupId" th:value="${group.groupId}"/>
     <input type="text" name="nickname" placeholder="닉네임" required />
     <textarea name="content" placeholder="응원글을 작성하세요!" required></textarea>
     <button type="submit">등록</button>
 </form>
 
+<!-- ✅ 응원글 목록 -->
 <h2>📃 응원글 목록</h2>
-<ul>
-    <li th:each="post : ${posts}">
-        <p><strong th:text="${post.nickname}"></strong>: <span th:text="${post.content}"></span></p>
-        <p th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"></p>
-        <hr/>
-    </li>
-</ul>
+<div th:each="post : ${posts}" class="post-item">
+    <p><strong th:text="${post.nickname}"></strong> <span th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"></span></p>
+    <p th:text="${post.content}"></p>
+</div>
+
+<!-- ✅ 자바스크립트로 멤버 상세정보 표시 -->
+<script>
+    const members = /*[[${members}]]*/ [];
+
+    function showMemberInfo(memberId) {
+        const member = members.find(m => m.memberId === memberId);
+        if (member) {
+            document.getElementById("member-info").innerHTML = `
+                <h3>${member.name}</h3>
+                <p>포지션: ${member.position}</p>
+                <p>생년월일: ${member.birthday}</p>
+                <img src="/images/${member.profileimg}" alt="${member.name}" width="150"/>
+            `;
+        }
+    }
+</script>
 
 </body>
 </html>
