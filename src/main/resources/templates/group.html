@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${group.group_name} + ' 응원 게시판'">그룹 응원 게시판</title>
+    <title th:text="${group.groupName} + ' 응원 게시판'">그룹 응원 게시판</title>
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
@@ -31,6 +31,16 @@
             border-bottom: 1px solid #ccc;
             padding: 10px 0;
         }
+        #member-info {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 8px;
+            display: none; /* 초기에는 멤버 정보 영역을 숨겨 놓습니다 */
+        }
+        #member-info img {
+            border-radius: 8px;
+        }
     </style>
 </head>
 <body>
@@ -55,8 +65,11 @@
 </div>
 
 <!-- ✅ 멤버 정보 표시 -->
-<div id="member-info" style="margin-top: 20px; border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
-    <p>멤버 버튼을 클릭하면 정보가 나타납니다.</p>
+<div id="member-info">
+    <h3 id="member-name">멤버 이름</h3>
+    <p id="member-position">포지션: </p>
+    <p id="member-birthday">생년월일: </p>
+    <img id="member-photo" src="" alt="멤버 사진" width="150"/>
 </div>
 
 <!-- ✅ 응원글 등록 폼 -->
@@ -77,17 +90,18 @@
 
 <!-- ✅ 자바스크립트로 멤버 상세정보 표시 -->
 <script>
-    const members = /*[[${members}]]*/ [];
+    // Thymeleaf에서 전달된 members 데이터를 JavaScript로 가져옵니다.
+    const members = /*[[${members}]]*/ [];  // 멤버 데이터를 JavaScript 변수로 전달
 
     function showMemberInfo(memberId) {
         const member = members.find(m => m.memberId === memberId);
         if (member) {
-            document.getElementById("member-info").innerHTML = `
-                <h3>${member.name}</h3>
-                <p>포지션: ${member.position}</p>
-                <p>생년월일: ${member.birthday}</p>
-                <img src="/images/${member.profileimg}" alt="${member.name}" width="150"/>
-            `;
+            // 멤버 정보를 HTML에 표시
+            document.getElementById("member-info").style.display = "block";  // 멤버 정보 영역 표시
+            document.getElementById("member-name").innerText = member.name;
+            document.getElementById("member-position").innerText = `포지션: ${member.position}`;
+            document.getElementById("member-birthday").innerText = `생년월일: ${member.birthday}`;
+            document.getElementById("member-photo").src = `/images/${member.profileimg}`;
         }
     }
 </script>
