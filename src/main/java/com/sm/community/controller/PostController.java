@@ -5,15 +5,14 @@ import com.sm.community.entity.Post;
 import com.sm.community.repository.ArtistGroupRepository;
 import com.sm.community.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 
-@RestController
+@Controller
 @RequestMapping("/posts")
 @RequiredArgsConstructor
 public class PostController {
@@ -21,9 +20,9 @@ public class PostController {
     private final ArtistGroupRepository groupRepository;
 
     @PostMapping
-    public ResponseEntity<String> createPost(@RequestBody PostDto dto) {
+    public String createPost(PostDto dto, Model model) {
         ArtistGroup group = groupRepository.findById(dto.getGroupId())
-                .orElseThrow(() -> new RuntimeException("Group not found"));
+                .orElseThrow(() -> new RuntimeException("그룹을 찾지 못했습니다."));
 
         Post post = new Post();
         post.setGroup(group);
@@ -33,7 +32,8 @@ public class PostController {
         post.setUpdatedAt(LocalDateTime.now());
 
         postRepository.save(post);
-
-        return ResponseEntity.ok("게시글이 등록되었습니다.!!");
+        model.addAttribute("groupId", dto.getGroupId());
+        return "posts/success";  // templates/posts/success.html로 이동
+        //return ResponseEntity.ok("게시글이 등록되었습니다.!!");
     }
 }
