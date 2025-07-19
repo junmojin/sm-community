@@ -8,7 +8,6 @@ import java.time.LocalDate;
 
 @Entity
 @Getter
-@Setter
 public class Member {
 
     @Id @GeneratedValue
@@ -18,7 +17,9 @@ public class Member {
     @JoinColumn(name = "group_id")
     private ArtistGroup group;
 
+    @Setter
     private String name;
+
     private LocalDate birthday;
     private String position;
     private String profileImg;
