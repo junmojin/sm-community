@@ -6,16 +6,18 @@
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
-            background-color: #f8f9fa;
+            background-color: #fff0f5;
             margin: 0;
             padding: 20px;
         }
         .group-banner {
+            width: 100%;
+            aspect-ratio: 16 / 6;
             background-size: cover;
             background-position: center;
-            height: 250px;
+            background-repeat: no-repeat;
             border-radius: 8px;
-            margin-bottom: 20px;
+            overflow: hidden;
         }
         .member-buttons button {
             margin: 5px;
@@ -36,7 +38,7 @@
             border: 1px solid #ddd;
             padding: 10px;
             border-radius: 8px;
-            display: none; /* 초기에는 멤버 정보 영역을 숨겨 놓습니다 */
+            display: none; /* 초기에는 멤버 정보 영역을 숨겨 놓는다 */
         }
         #member-info img {
             border-radius: 8px;
@@ -47,7 +49,7 @@
 
 <!-- ✅ 그룹 배너 -->
 <div class="group-banner"
-     th:style="'background-image: url(/images/' + ${group.groupName} + '_group.jpg)'">
+     th:style="|background-image: url('/images/${#strings.replace(group.groupName, ' ', '')}_group.jpg')|">
 </div>
 
 <!-- ✅ 그룹 정보 -->
