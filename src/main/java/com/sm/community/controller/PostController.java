@@ -32,8 +32,7 @@ public class PostController {
         post.setUpdatedAt(LocalDateTime.now());
 
         postRepository.save(post);
-        model.addAttribute("groupId", dto.getGroupId());
-        return "posts/success";  // templates/posts/success.html로 이동
+        return "redirect:/";
         //return ResponseEntity.ok("게시글이 등록되었습니다.!!");
     }
 }
